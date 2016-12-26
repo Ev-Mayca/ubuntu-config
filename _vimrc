@@ -5,9 +5,6 @@ func! SaveInputData()
 	exec "w! /tmp/input_data"
 endfunc
 
-
-
-
 ""colorscheme torte
 ""colorscheme murphy
 colorscheme desert 
@@ -19,8 +16,6 @@ colorscheme desert
 ""colorscheme pablo
 ""colorscheme default
 ""colorscheme shine
-
-
 
 "set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
 "set termencoding=utf-8
@@ -357,11 +352,6 @@ filetype plugin indent on
 set completeopt=longest,menu
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-
-
-
-
 "NERDtee设定
 let NERDChristmasTree=1
 let NERDTreeAutoCenter=1
@@ -375,3 +365,5 @@ let NERDTreeWinPos='left'
 let NERDTreeWinSize=31
 nnoremap f :NERDTreeToggle
 map <F7> :NERDTree<CR>  
+
+au FileType c,cpp setlocal comments-=:// comments+=f://
