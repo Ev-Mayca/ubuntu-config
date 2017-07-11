@@ -7,7 +7,7 @@ endfunc
 
 ""colorscheme torte
 ""colorscheme murphy
-colorscheme desert 
+colorscheme deset1 
 "colorscheme desert 
 ""colorscheme elflord
 "colorscheme ron
@@ -183,11 +183,12 @@ map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
 	if &filetype == 'c'
-		exec "!g++ % -o %<"
-		exec "! ./%<"
+		exec "!g++ % -o %< && ./%<"
+		""exec "! ./%<"
 	elseif &filetype == 'cpp'
-		exec "!g++ % -o %<"
-		exec "! ./%<"
+		""exec "!cmake ."
+		exec "!make && ./CMakeFiles/%<"
+		""exec "! ./CMakeFiles/%<"
 	elseif &filetype == 'java' 
 		exec "!javac %" 
 		exec "!java %<"
@@ -322,7 +323,8 @@ au BufRead,BufNewFile *  setfiletype txt
 "自动补全
 :inoremap ( ()<ESC>i
 :inoremap ) <c-r>=ClosePair(')')<CR>
-:inoremap { {<CR>}<ESC>O
+:inoremap {<cr>  {<CR>}<ESC>O
+:inoremap { {}<ESC>i
 :inoremap } <c-r>=ClosePair('}')<CR>
 :inoremap [ []<ESC>i
 :inoremap ] <c-r>=ClosePair(']')<CR>
