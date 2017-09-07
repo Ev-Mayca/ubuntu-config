@@ -7,8 +7,8 @@ endfunc
 
 ""colorscheme torte
 ""colorscheme murphy
-colorscheme deset1 
-"colorscheme desert 
+"colorscheme deset 
+colorscheme desert 
 ""colorscheme elflord
 "colorscheme ron
 ""colorscheme morning
@@ -71,7 +71,7 @@ func SetTitle()
 		call setline(1,"\#########################################################################") 
 		call append(line("."), "\# File Name: ".expand("%")) 
 		call append(line(".")+1, "\# Author: Ev") 
-		call append(line(".")+2, "\# mail: wang2011yiwei@sina.com") 
+		call append(line(".")+2, "\# mail: yw.wang@yuneec.com") 
 		call append(line(".")+3, "\# Created Time: ".strftime("%c")) 
 		call append(line(".")+4, "\#########################################################################") 
 		call append(line(".")+5, "\#!/bin/bash") 
@@ -80,7 +80,7 @@ func SetTitle()
 		call setline(1, "/*************************************************************************") 
 		call append(line("."), "	> File Name: ".expand("%")) 
 		call append(line(".")+1, "	> Author: Ev") 
-		call append(line(".")+2, "	> Mail: wang2011yiwei@sina.com ") 
+		call append(line(".")+2, "	> Mail: yw.wang@yuneec.com ") 
 		call append(line(".")+3, "	> Created Time: ".strftime("%c")) 
 		call append(line(".")+4, " ************************************************************************/") 
 	endif
@@ -104,24 +104,28 @@ func SetTitle()
 		call append(line(".")+5, "") 
 		call append(line(".")+6, "//------------------------ Include Files -------------------------------//") 
 		call append(line(".")+7, "") 
-		call append(line(".")+8, "//--------------------------- Veriable ---------------------------------//") 
+		call append(line(".")+8, "#include <stdio.h>") 
 		call append(line(".")+9, "") 
-		call append(line(".")+10, "//--------------------- Function Prototype -----------------------------//") 
+		call append(line(".")+10, "//--------------------------- Veriable ---------------------------------//") 
 		call append(line(".")+11, "") 
-		call append(line(".")+12, "//------------------------- Function -----------------------------------//") 
+		call append(line(".")+12, "//--------------------- Function Prototype -----------------------------//") 
 		call append(line(".")+13, "") 
+		call append(line(".")+14, "//------------------------- Function -----------------------------------//") 
+		call append(line(".")+15, "") 
 	
 	endif
 	if text_file_type == 'cpp' 
 		call append(line(".")+5, "") 
 		call append(line(".")+6, "//------------------------ Include Files -------------------------------//") 
 		call append(line(".")+7, "") 
-		call append(line(".")+8, "//--------------------------- Veriable ---------------------------------//") 
+		call append(line(".")+8, "#include <iostream>") 
 		call append(line(".")+9, "") 
-		call append(line(".")+10, "//--------------------- Function Prototype -----------------------------//") 
+		call append(line(".")+10, "//--------------------------- Veriable ---------------------------------//") 
 		call append(line(".")+11, "") 
-		call append(line(".")+12, "//------------------------- Function -----------------------------------//") 
+		call append(line(".")+12, "//--------------------- Function Prototype -----------------------------//") 
 		call append(line(".")+13, "") 
+		call append(line(".")+14, "//------------------------- Function -----------------------------------//") 
+		call append(line(".")+15, "") 
 	
 	endif
 	if text_file_type == 'cu' 
@@ -183,7 +187,7 @@ map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
 	if &filetype == 'c'
-		exec "!g++ % -o %< && ./%<"
+		exec "!g++ -Wall % -o %< && ./%<"
 		""exec "! ./%<"
 	elseif &filetype == 'cpp'
 		""exec "!cmake ."
@@ -301,7 +305,7 @@ set wildmenu
 " 使回格键（backspace）正常处理indent, eol, start等
 set backspace=2
 " 允许backspace和光标键跨越行边界
-set whichwrap+=<,>,h,l
+""set whichwrap+=<,>,h,l
 " 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）
 set mouse=a
 set selection=exclusive
