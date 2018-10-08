@@ -7,8 +7,8 @@ endfunc
 
 ""colorscheme torte
 ""colorscheme murphy
-colorscheme deset1 
-"colorscheme desert 
+"colorscheme deset1 
+colorscheme desert 
 ""colorscheme elflord
 "colorscheme ron
 ""colorscheme morning
@@ -62,7 +62,7 @@ endif
 """""新文件标题
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.cu exec ":call SetTitle()" 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.cu,*.py exec ":call SetTitle()" 
 ""定义函数SetTitle，自动插入文件头 
 func SetTitle() 
 	
@@ -76,6 +76,16 @@ func SetTitle()
 		call append(line(".")+4, "\#########################################################################") 
 		call append(line(".")+5, "\#!/bin/bash") 
 		call append(line(".")+6, "") 
+	elseif &filetype == 'python'
+		call setline(1,"# -*- coding:UTF-8 -*-") 
+		call append(line("."), "\#########################################################################") 
+		call append(line(".")+1, "\# File Name: ".expand("%")) 
+		call append(line(".")+2, "\# Author: Ev") 
+		call append(line(".")+3, "\# mail: wang2011yiwei@sina.com") 
+		call append(line(".")+4, "\# Created Time: ".strftime("%c")) 
+		call append(line(".")+5, "\#########################################################################") 
+		call append(line(".")+6, "\#!/usr/bin/python") 
+		call append(line(".")+7, "") 
 	else 
 		call setline(1, "/*************************************************************************") 
 		call append(line("."), "	> File Name: ".expand("%")) 
@@ -163,9 +173,9 @@ nmap <leader>w :w!<cr>
 nmap <leader>f :find<cr>
 
 " 映射全选+复制 ctrl+a
-map <C-A> ggVGY
-map! <C-A> <Esc>ggVGY
-map <F12> gg=G
+"map <C-A> ggVGY
+"map! <C-A> <Esc>ggVGY
+"map <F12> gg=G
 " 选中状态下 Ctrl+c 复制
 vmap <C-c> "+y
 "去空行  
@@ -193,9 +203,9 @@ func! CompileRunGcc()
 		exec "!java %<"
 	elseif &filetype == 'sh'
 		:!./%
-	elseif &filetype == 'py'
+	elseif &filetype == 'python'
 		exec "!python %"
-		exec "!python %<"
+		"exec "!python %<"
 	endif
 endfunc
 "C,C++的调试
