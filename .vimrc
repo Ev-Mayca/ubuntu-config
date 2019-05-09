@@ -192,21 +192,31 @@ map <C-F3> \be
 map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
-	if &filetype == 'c'
-		exec "!g++ % -o %<"
-		exec "! ./%<"
-	elseif &filetype == 'cpp'
-		exec "!g++ % -o %<"
-		exec "! ./%<"
-	elseif &filetype == 'java' 
-		exec "!javac %" 
-		exec "!java %<"
-	elseif &filetype == 'sh'
-		:!./%
-	elseif &filetype == 'python'
-		exec "!python %"
-		"exec "!python %<"
+	let myFile=expand("%")
+	let myExe=expand("%<")
+	let myFileType=expand("%:e")
+	if bufloaded(".result")
+		:wincmd w
+		:silent %d
+	else
+		:new .result
+		:silent %d
+		:wincmd J
 	endif
+	if myFileType == 'c'
+		echo "r !gcc ".myFile." -o ".myExe." && ./".myExe
+		silent exec "r !g++ ".myFile." -o ".myExe." && ./".myExe
+	elseif myFileType == 'cpp'
+		silent exec "r !g++ ".myFile." -o ".myExe."&& ./".myExe
+	elseif myFileType == 'java' 
+		silent exec "r !javac ".myFile." -o ".myExe."&& ./".myExe
+	elseif myFileType == 'sh'
+		silent exec "r ./".myExe
+	elseif myFileType == 'python'
+		silent exec "r !python ./".myExe
+	endif
+	:w
+	:wincmd w
 endfunc
 "C,C++的调试
 map <F8> :call Rungdb()<CR>
