@@ -1,10 +1,38 @@
-map <F9> :call SaveInputData()<CR>
+noremap <F9> :call SaveInputData()<CR>
 func! SaveInputData()
 	exec "tabnew"
 	exec 'normal "+gP'
 	exec "w! /tmp/input_data"
 endfunc
-
+iabbrev @@ wang2011yiwei@sina.com
+iabbrev ccopy Copyright 2019 Ev,all rights reserved.
+let mapleader=','
+nnoremap <leader>" ve<ESC>i"<ESC>hbi"<ESC>lel
+nnoremap <leader>w <c-w>w
+inoremap jk <ESC>
+inoremap <ESC> <nop>
+function! CommitCode(char)
+	exec "normal! ^"
+	let l:line = getline(".")
+	let l:col = col(".")
+	if a:char == '//'
+		if l:line[l:col-1] == l:line[l:col] && l:line[l:col] == '/'
+			exec "normal! xx"
+		else
+			exec "normal! i//"
+		endif
+	else
+		if l:line[l:col-1] == a:char
+			exec "normal! x"
+		else
+			exec "normal! i".a:char
+		endif
+	endif
+endf
+""nnoremap <leader>c <ESC>:call CommitCode("//")<CR>
+autocmd FileType javascript,c,c++ nnoremap <leader>c <ESC>:call CommitCode("//") <CR>
+autocmd FileType python,sh,cmake nnoremap <leader>c <ESC>:call CommitCode("#") <CR>
+autocmd FileType vim nnoremap <leader>c <ESC>:call CommitCode('"') <CR>
 ""colorscheme torte
 ""colorscheme murphy
 "colorscheme deset1 
@@ -26,7 +54,7 @@ colorscheme desert
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 显示相关  
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"set shortmess=atI   " 启动的时候不显示那个援助乌干达儿童的提示  
+set shortmess=atI   " 启动的时候不显示那个援助乌干达儿童的提示  
 "winpos 5 5          " 设定窗口位置  
 "set lines=40 columns=155    " 设定窗口大小  
 set go=             " 不要图形按钮  
@@ -62,9 +90,8 @@ endif
 """""新文件标题
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.cu,*.py exec ":call SetTitle()" 
 ""定义函数SetTitle，自动插入文件头 
-func SetTitle() 
+func! SetTitle() 
 	
 	"如果文件类型为.sh文件 
 	if &filetype == 'sh' 
@@ -165,31 +192,33 @@ func SetTitle()
 	"新建文件后，自动定位到文件末尾
 	autocmd BufNewFile * normal G
 endfunc 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.cu,*.py exec ":call SetTitle1()" 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "键盘命令
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nmap <leader>w :w!<cr>
-nmap <leader>f :find<cr>
+""nnoremap <leader>w :w!<cr>
+""nnoremap <leader>f :find<cr>
 
 " 映射全选+复制 ctrl+a
 "map <C-A> ggVGY
 "map! <C-A> <Esc>ggVGY
 "map <F12> gg=G
 " 选中状态下 Ctrl+c 复制
-vmap <C-c> "+y
+vnoremap <C-c> "+y
+nnoremap <C-p> "+p
 "去空行  
 nnoremap <F2> :g/^\s*$/d<CR> 
 "比较文件  
 nnoremap <C-F2> :vert diffsplit 
 "新建标签  
-map <M-F2> :tabnew<CR>  
+noremap <M-F2> :tabnew<CR>  
 "列出当前目录文件  
-map <F3> :tabnew .<CR>  
+noremap <F3> :tabnew .<CR>  
 "打开树状文件目录  
-map <C-F3> \be  
+noremap <C-F3> \be  
 "C，C++ 按F5编译运行
-map <F5> :call CompileRunGcc()<CR>
+noremap <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
 	let myFile=expand("%")
@@ -219,7 +248,7 @@ func! CompileRunGcc()
 	:wincmd w
 endfunc
 "C,C++的调试
-map <F8> :call Rungdb()<CR>
+noremap <F8> :call Rungdb()<CR>
 func! Rungdb()
 	exec "w"
 	exec "!g++ % -g -o %<"
@@ -232,7 +261,8 @@ endfunc
 " 设置当文件被改动时自动载入
 set autoread
 " quickfix模式
-autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
+""autocmd FileType c,cpp map <buffer> <leader><space> :w<cr>:make<cr>
+
 "代码补全 
 set completeopt=preview,menu 
 "允许插件  
@@ -242,7 +272,7 @@ set clipboard+=unnamed
 "从不备份  
 set nobackup
 "make 运行
-:set makeprg=g++\ -Wall\ \ %
+"":set makeprg=g++\ -Wall\ \ %
 "自动保存
 set autowrite
 set ruler                   " 打开状态栏标尺
@@ -335,6 +365,8 @@ set showmatch
 set matchtime=1
 " 光标移动到buffer的顶部和底部时保持3行距离
 set scrolloff=3
+nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 " 为C程序提供自动缩进
 set smartindent
 " 高亮显示普通txt文件（需要txt.vim脚本）
@@ -356,7 +388,7 @@ function! ClosePair(char)
 		return a:char
 	endif
 endfunction
-function QuoteDelim(char)
+function! QuoteDelim(char)
 	let line = getline('.')
 	let col = col('.')
 	if line[col -2] == "\\"
@@ -368,23 +400,44 @@ function QuoteDelim(char)
 	endif
 endf
 
+function! RemovePairs()
+	let l:line = getline(".")
+	let l:previous_char = l:line[col(".") - 1]
+	let l:current_char = l:line[col(".")]
+	if index(["'",'"',"(","[","{"],l:previous_char) != -1
+		if index(["'",'"',"(","[","{"],l:previous_char) == index(["'",'"',")","]","}"],l:current_char)
+			""echo l:previous_char." same ".l:current_char
+			exec "normal! xx"
+			return
+		endif
+	endif
+	""echo l:previous_char." signal ".l:current_char
+
+	if len(getline(".")) == col(".")
+		exec "normal! xa"
+	else
+		exec "normal! xh"
+	endif
+endf
+inoremap <BS> <ESC>:call RemovePairs() <CR>a
+
 filetype plugin indent on 
 "打开文件类型检测, 加了这句才可以用智能补全
 set completeopt=longest,menu
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "NERDtee设定
-let NERDChristmasTree=1
-let NERDTreeAutoCenter=1
-let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
-let NERDTreeMouseMode=2
-let NERDTreeShowBookmarks=1
-let NERDTreeShowFiles=1
-let NERDTreeShowHidden=1
-let NERDTreeShowLineNumbers=1
-let NERDTreeWinPos='left'
-let NERDTreeWinSize=31
-nnoremap f :NERDTreeToggle
-map <F7> :NERDTree<CR>  
+""let NERDChristmasTree=1
+""let NERDTreeAutoCenter=1
+""let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
+""let NERDTreeMouseMode=2
+""let NERDTreeShowBookmarks=1
+""let NERDTreeShowFiles=1
+""let NERDTreeShowHidden=1
+""let NERDTreeShowLineNumbers=1
+""let NERDTreeWinPos='left'
+""let NERDTreeWinSize=31
+""nnoremap f :NERDTreeToggle
+""map <F7> :NERDTree<CR>  
 
-au FileType c,cpp setlocal comments-=:// comments+=f://
+""au FileType c,cpp setlocal comments-=:// comments+=f://
