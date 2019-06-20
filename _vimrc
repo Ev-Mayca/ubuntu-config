@@ -10,8 +10,98 @@ func! SaveInputData()
 
 endfunc
 
+iabbrev @@ wang2011yiwei@sina.com
+iabbrev ccopy Copyright 2019 Ev,all rights reserved.
+let mapleader=','
+nnoremap <leader>" ve<ESC>i"<ESC>hbi"<ESC>lel
+nnoremap <leader>w <c-w>
+nnoremap <leader>" ve<ESC>i"<ESC>hbi"<ESC>lel
+
+function! CommitCode(char)
+
+	exec "normal! ^"
+
+	let l:line = getline(".")
+
+	let l:col = col(".")
+
+	if a:char == '//'
+
+		if l:line[l:col-1] == l:line[l:col] && l:line[l:col] == '/'
+
+			exec "normal! xx"
+
+		else
+
+			exec "normal! i//"
+
+		endif
+
+	else
+
+		if l:line[l:col-1] == a:char
+
+			exec "normal! x"
+
+		else
+
+			exec "normal! i".a:char
+
+		endif
+
+	endif
+
+endf
+
+""nnoremap <leader>c <ESC>:call CommitCode("//")<CR>
+
+autocmd FileType javascript,c,c++ nnoremap <leader>c <ESC>:call CommitCode("//") <CR>
+
+autocmd FileType python,sh,cmake nnoremap <leader>c <ESC>:call CommitCode("#") <CR>
+
+autocmd FileType vim nnoremap <leader>c <ESC>:call CommitCode('"') <CR>
+
+function! RemovePairs()
+
+	let l:line = getline(".")
+
+	let l:previous_char = l:line[col(".") - 1]
+
+	let l:current_char = l:line[col(".")]
+
+	if index(["'",'"',"(","[","{","<"],l:previous_char) != -1
+
+		if index(["'",'"',"(","[","{","<"],l:previous_char) == index(["'",'"',")","]","}",">"],l:current_char)
+
+			""echo l:previous_char." same ".l:current_char
+
+			exec "normal! xx"
+
+			return
+
+		endif
+
+	endif
+
+	""echo l:previous_char." signal ".l:current_char
 
 
+
+	if len(getline(".")) == col(".")
+
+		exec "normal! xa"
+
+	else
+
+		exec "normal! xh"
+
+	endif
+
+endf
+
+inoremap <BS> <ESC>:call RemovePairs() <CR>a
+
+""colorscheme torte
 ""colorscheme torte
 
 ""colorscheme murphy
@@ -318,14 +408,6 @@ endfunc
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-
-
-nmap <leader>w :w!<cr>
-
-nmap <leader>f :find<cr>
-
-
-
 " 映射全选+复制 ctrl+a
 
 map <C-A> ggVGY
@@ -372,7 +454,7 @@ func! CompileRunGcc()
 		exec "!g++ % -o %<"
 
 		exec "! ./%<"
-
+		
 	elseif &filetype == 'cpp'
 
 		exec "!g++ % -o %<"
@@ -391,7 +473,16 @@ func! CompileRunGcc()
 
 	elseif &filetype == "python"
 
-		exec "!python %"
+		:hide only
+		
+		":term python "%"
+		:term python "%"
+		":res 20
+		:wincmd J
+		:10 wincmd _
+		:wincmd w
+		
+		"exec "!python %"
 
 		"exec "!python %<.py"
 
@@ -706,35 +797,6 @@ filetype plugin indent on
 set completeopt=longest,menu
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-
-"NERDtee设定
-
-let NERDChristmasTree=1
-
-let NERDTreeAutoCenter=1
-
-let NERDTreeBookmarksFile=$VIM.'\Data\NerdBookmarks.txt'
-
-let NERDTreeMouseMode=2
-
-let NERDTreeShowBookmarks=1
-
-let NERDTreeShowFiles=1
-
-let NERDTreeShowHidden=1
-
-let NERDTreeShowLineNumbers=1
-
-let NERDTreeWinPos='left'
-
-let NERDTreeWinSize=31
-
-nnoremap f :NERDTreeToggle
-
-map <F7> :NERDTree<CR>  
-
 
 
 au FileType c,cpp setlocal comments-=:// comments+=f://
