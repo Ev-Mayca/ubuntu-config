@@ -16,6 +16,10 @@ let mapleader=','
 nnoremap <leader>" ve<ESC>i"<ESC>hbi"<ESC>lel
 nnoremap <leader>w <c-w>
 nnoremap <leader>" ve<ESC>i"<ESC>hbi"<ESC>lel
+vnoremap ' di''<ESC>P
+vnoremap " di""<ESC>P
+vnoremap ( di()<ESC>P
+vnoremap [ di[]<ESC>P
 
 function! CommitCode(char)
 
@@ -409,10 +413,6 @@ endfunc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 映射全选+复制 ctrl+a
-
-map <C-A> ggVGY
-
-map! <C-A> <Esc>ggVGY
 
 map <F12> gg=G
 
