@@ -1,16 +1,8 @@
-noremap <F9> :call SaveInputData()<CR>
-func! SaveInputData()
-	exec "tabnew"
-	exec 'normal "+gP'
-	exec "w! /tmp/input_data"
-endfunc
 iabbrev @@ wang2011yiwei@sina.com
 iabbrev ccopy Copyright 2019 Ev,all rights reserved.
 let mapleader=','
 nnoremap <leader>" ve<ESC>i"<ESC>hbi"<ESC>lel
 nnoremap <leader>w <c-w>w
-inoremap jk <ESC>
-inoremap <ESC> <nop>
 function! CommitCode(char)
 	exec "normal! ^"
 	let l:line = getline(".")
@@ -124,8 +116,8 @@ func! SetTitle()
 
 	let text_file_type = expand("%:e")
 	if text_file_type == 'h'
-		call append(line(".")+5, "#ifndef __".expand("%:r")."_".expand("%:e")."__")
-		call append(line(".")+6, "#define __".expand("%:r")."_".expand("%:e")."__")
+		call append(line(".")+5, "#ifndef __".toupper(expand("%:r"))."_".toupper(expand("%:e")."__"))
+		call append(line(".")+6, "#define __".toupper(expand("%:r"))."_".toupper(expand("%:e")."__"))
 		call append(line(".")+7, "") 
 		call append(line(".")+8, "//--------------------------- Define -----------------------------------//") 
 		call append(line(".")+9, "") 
@@ -135,9 +127,21 @@ func! SetTitle()
 		call append(line(".")+13, "") 
 		call append(line(".")+14, "//-------------------------- Extern ------------------------------------//") 
 		call append(line(".")+15, "") 
-		call append(line(".")+16, "#endif	//__".expand("%:r")."_".expand("%:e")."__")
-	endif
-	if text_file_type == 'c' 
+		call append(line(".")+16, "#endif	//__".toupper(expand("%:r"))."_".toupper(expand("%:e")."__"))
+	elseif text_file_type == 'hpp'
+		call append(line(".")+5, "#ifndef __".toupper(expand("%:r"))."_".toupper(expand("%:e")."__"))
+		call append(line(".")+6, "#define __".toupper(expand("%:r"))."_".toupper(expand("%:e")."__"))
+		call append(line(".")+7, "") 
+		call append(line(".")+8, "//--------------------------- Define -----------------------------------//") 
+		call append(line(".")+9, "") 
+		call append(line(".")+10, "//------------------------ Include Files -------------------------------//") 
+		call append(line(".")+11, "") 
+		call append(line(".")+12, "//-------------------------- Typedef -----------------------------------//") 
+		call append(line(".")+13, "") 
+		call append(line(".")+14, "//-------------------------- Extern ------------------------------------//") 
+		call append(line(".")+15, "") 
+		call append(line(".")+16, "#endif	//__".toupper(expand("%:r"))."_".toupper(expand("%:e")."__"))
+	elseif text_file_type == 'c' 
 		call append(line(".")+5, "") 
 		call append(line(".")+6, "//------------------------ Include Files -------------------------------//") 
 		call append(line(".")+7, "") 
@@ -147,9 +151,7 @@ func! SetTitle()
 		call append(line(".")+11, "") 
 		call append(line(".")+12, "//------------------------- Function -----------------------------------//") 
 		call append(line(".")+13, "") 
-	
-	endif
-	if text_file_type == 'cpp' 
+	elseif text_file_type == 'cpp' 
 		call append(line(".")+5, "") 
 		call append(line(".")+6, "//------------------------ Include Files -------------------------------//") 
 		call append(line(".")+7, "") 
@@ -159,9 +161,7 @@ func! SetTitle()
 		call append(line(".")+11, "") 
 		call append(line(".")+12, "//------------------------- Function -----------------------------------//") 
 		call append(line(".")+13, "") 
-	
-	endif
-	if text_file_type == 'cu' 
+	elseif text_file_type == 'cu' 
 		call append(line(".")+5, "") 
 		call append(line(".")+6, "//------------------------ Include Files -------------------------------//") 
 		call append(line(".")+7, "") 
@@ -192,7 +192,7 @@ func! SetTitle()
 	"新建文件后，自动定位到文件末尾
 	autocmd BufNewFile * normal G
 endfunc 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java,*.cu,*.py exec ":call SetTitle1()" 
+autocmd BufNewFile *.cpp,*.hpp,*.[ch],*.sh,*.java,*.cu,*.py exec ":call SetTitle()" 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "键盘命令
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -335,10 +335,6 @@ set laststatus=2
 set cmdheight=2
 " 侦测文件类型
 filetype on
-" 载入文件类型插件
-filetype plugin on
-" 为特定文件类型载入相关缩进文件
-filetype indent on
 " 保存全局变量
 set viminfo+=!
 " 带有如下符号的单词不要被换行分割
