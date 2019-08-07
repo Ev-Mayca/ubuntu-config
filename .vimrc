@@ -21,7 +21,7 @@ function! CommitCode(char)
 		endif
 	endif
 endf
-""nnoremap <leader>c <ESC>:call CommitCode("//")<CR>
+nnoremap <leader>c <ESC>:call CommitCode("//")<CR>
 autocmd FileType javascript,c,c++ nnoremap <leader>c <ESC>:call CommitCode("//") <CR>
 autocmd FileType python,sh,cmake nnoremap <leader>c <ESC>:call CommitCode("#") <CR>
 autocmd FileType vim nnoremap <leader>c <ESC>:call CommitCode('"') <CR>
