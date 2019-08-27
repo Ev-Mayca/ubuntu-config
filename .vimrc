@@ -233,16 +233,16 @@ func! CompileRunGcc()
 		:wincmd J
 	endif
 	if myFileType == 'c'
-		echo "r !gcc ".myFile." -o ".myExe." && ./".myExe
+		"echo "r !gcc ".myFile." -o ".myExe." && ./".myExe
 		silent exec "r !g++ ".myFile." -o ".myExe." && ./".myExe
 	elseif myFileType == 'cpp'
 		silent exec "r !g++ ".myFile." -o ".myExe."&& ./".myExe
 	elseif myFileType == 'java' 
 		silent exec "r !javac ".myFile." -o ".myExe."&& ./".myExe
 	elseif myFileType == 'sh'
-		silent exec "r ./".myExe
-	elseif myFileType == 'python'
-		silent exec "r !python ./".myExe
+		silent exec "r ./".myFile
+	elseif myFileType == 'py'
+		silent exec "r !python ./".myFile
 	endif
 	:w
 	:wincmd w
