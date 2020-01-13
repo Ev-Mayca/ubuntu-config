@@ -1,16 +1,16 @@
-###<center>vins 中值法公式详细推导</center>
-####关键符号说明
-$w_m$ vins中中值法，[$w_t , w_{t+1}]$区间的测量值
+### <center>vins 中值法公式详细推导</center>
+#### 关键符号说明
+$w_m$ vins中中值法，$[w_t , w_{t+1}]$区间的测量值
 $$\tag{0} w_{m} = \frac {w_t+w_{t+1}} {2}$$
 $a_m$ vins中中值法，[$a_t , a_{t+1}]$区间的测量值
 $$\tag{1} a_{m} = {\frac {q_t(a_t + n_{a0}-b_{at}) + q_{t+1}{(a_{t+1}+n_{a1}-b_{at})}} {2}}$$
-$a_t$ $t$时刻的加速度测量值
-$v_t$ $t$时刻的角速度测量值
-$b_{at}$ 加速度在$t$时刻的偏置
-$b_{wt}$ 角速度在$t$时刻的偏置
-$n_{at}$ 加速度在$t$时刻的高斯噪声
-$n_{wt}$ 角速度在$t$时刻的高斯噪声
-####1.离散系统的状态更新方程
+$a_t$ $t$ 时刻的加速度测量值  
+$v_t$ $t$ 时刻的角速度测量值  
+$b_{at}$ 加速度在$t$时刻的偏置  
+$b_{wt}$ 角速度在$t$时刻的偏置  
+$n_{at}$ 加速度在$t$时刻的高斯噪声  
+$n_{wt}$ 角速度在$t$时刻的高斯噪声  
+#### 0、离散系统的状态更新方程
 
 $$p_{t+1} = p_t + v_t \delta t + \frac 1 2 \hat{a}_t\delta^2 t \tag{2}$$
 $$q_{t+1} = q_t\otimes\big\{\hat{w}_t\delta t\big\}\tag{3}$$
@@ -27,7 +27,7 @@ $$\tag{10} \delta\theta_{t+1} = \delta\theta_t + \delta\theta_t^{'}\delta{t}$$
 $$\begin{aligned}\tag{11} \delta\theta_{t+1} = \delta\theta_t + (-[\frac {w_t+w_{t+1}} {2}-b_{wt}]_{\times}\delta\theta_t - \delta{b_w} - \frac {n_{w0} + n_{w1}} {2})\delta{t}\\
 =(I-[\frac {w_t+w_{t+1}} {2}-b_{wt}]_{\times}\delta{t})\delta\theta_t - \delta{b_w}\delta{t} - {\frac {n_{w0} + n_{w1}} {2}\delta}{t}\end{aligned}$$
 
-####2、$\delta{v}_{t+1}$ 的推导（此处不明白t和t+1的偏置为何是t时刻的）：
+#### 2、$\delta{v}_{t+1}$ 的推导（此处不明白t和t+1的偏置为何是t时刻的）：
 由参考文献2中的5.33节The error-state kinematics可知：
 $$\tag{13}\delta{v}^{'}=-R[a_m - b_a]_{\times}\delta\theta - R\delta b_a - Rn_a + \delta g$$ 
 公式$(6)$带入公式$(7)$可得（此处应该是减去高斯噪声，但是对高斯噪声的加减是不是无所谓？ $n\backsim N\{0,\alpha ^2\}$）:
@@ -43,7 +43,7 @@ $$\begin{aligned} \tag{16} \delta v_{t+1} = &\delta v_t - \frac {q_t[a_t - b_{at
 &-q_{t+1}[a_{t+1} - b_{at}]_{\times}\frac {((I\delta{t}-[\frac {w_t+w_{t+1}} {2}-b_{wt}]_{\times}\delta^2{t})\delta\theta_t - \delta{b_w}\delta^2{t} - {\frac {n_{w0} + n_{w1}} {2}}\delta^2{t})} {2}  \\
 &-\frac {q_t\delta b_{at} + q_{t+1} \delta b_{a(t+1)} + q_t n_{a0} + q_{t+1}n_{a1}} {2} \delta t \\
 \end{aligned}$$
-####3、$\delta{a}_{t+1}$ 的推导:
+#### 3、$\delta{a}_{t+1}$ 的推导:
 根据公式$(2)$
 $$\tag{17}\delta a_{t+1} = \delta a_t + \delta v_t \delta t + {\frac 1 2} \delta v^{'}_t\delta^2t$$
 $$\tag{18}\delta a_{t+1} = \delta a_t + \delta v_t \delta t + {\frac 1 2}()$$
