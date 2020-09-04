@@ -194,8 +194,8 @@ func! CompileRunGcc()
 	elseif &filetype == 'sh'
 		:!./%
 	elseif &filetype == 'py'
-		exec "!python %"
-		exec "!python %<"
+		exec "!python3 %"
+		exec "!python3 %<"
 	endif
 endfunc
 "C,C++的调试

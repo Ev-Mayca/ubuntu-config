@@ -476,7 +476,7 @@ func! CompileRunGcc()
 		:hide only
 		
 		":term python "%"
-		:term python "%"
+		:term python3 "%"
 		":res 20
 		:wincmd J
 		:10 wincmd _

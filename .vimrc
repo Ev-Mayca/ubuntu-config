@@ -224,11 +224,11 @@ func! CompileRunGcc()
 	let myFile=expand("%")
 	let myExe=expand("%<")
 	let myFileType=expand("%:e")
-	if bufloaded(".result")
+	if bufloaded($HOME.".result")
 		:wincmd w
 		:silent %d
 	else
-		:new .result
+		:new ~/.result
 		:silent %d
 		:wincmd J
 	endif
@@ -242,7 +242,7 @@ func! CompileRunGcc()
 	elseif myFileType == 'sh'
 		silent exec "r ./".myFile
 	elseif myFileType == 'py'
-		silent exec "r !python ./".myFile
+		silent exec "r !python3 ./".myFile
 	endif
 	:w
 	:wincmd w
